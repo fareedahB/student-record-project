@@ -4,6 +4,9 @@ import { AppService } from './app.service';
 import { StudentsModule } from './students/students.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Student } from './students/entities/student.entity';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { User } from './users/user.entity';
 
 @Module({
   imports: 
@@ -11,9 +14,10 @@ import { Student } from './students/entities/student.entity';
     TypeOrmModule.forRoot({
       type: 'better-sqlite3',
       database: 'db.sqlite',
-      entities: [Student],
+      entities: [Student, User],
       synchronize: true,
-    }),
+    }), 
+    AuthModule, UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

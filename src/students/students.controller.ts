@@ -1,11 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, BadRequestException, NotAcceptableException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, BadRequestException, NotAcceptableException , UseInterceptors, UseGuards} from '@nestjs/common';
 import { StudentsService } from './students.service';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { QueryStudentsDto } from './dto/query-student.dto';
+import { ResponseInterceptor } from './response.interceptor';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 
 @Controller('students')
+@UseInterceptors(ResponseInterceptor)
+@UseGuards(AuthGuard)
 export class StudentsController {
   constructor(private readonly studentsService: StudentsService) {}
 
