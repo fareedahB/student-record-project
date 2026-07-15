@@ -7,6 +7,7 @@ export default class UserSeeder implements Seeder {
     dataSource: DataSource,
     factoryManager: SeederFactoryManager,
   ): Promise<void> {
+    await dataSource.getRepository(User).clear();
     const userFactory = factoryManager.get(User);
     await userFactory.saveMany(10);
   }

@@ -3,7 +3,6 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { updateGlobalConfig } from 'nestjs-paginate';
 
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   
