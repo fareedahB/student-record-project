@@ -9,6 +9,7 @@ import { UsersModule } from './users/users.module';
 import { User } from './users/user.entity';
 import { AuthGuard } from './auth/auth.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: 
@@ -19,6 +20,10 @@ import { APP_GUARD } from '@nestjs/core';
       entities: [Student, User],
       synchronize: true,
     }), 
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
     AuthModule, UsersModule,
   ],
   controllers: [AppController],

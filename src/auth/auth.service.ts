@@ -1,15 +1,35 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, BadRequestException} from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-
+import { User } from 'src/users/user.entity';
+import { CreateUserDto } from 'src/users/create-user.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AuthService {
   constructor(
+    @InjectRepository(User)
+    private readonly userRepo: Repository<User>,
     private usersService: UsersService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    
   ) {}
+  
+  async signUp(dto: CreateUserDto) : Promise<Omit<User, 'password'>>{
+    const existingUser = await this.userRepo.findOne({ where: { username: dto.username } });
+    if (existingUser) {
+      throw new BadRequestException('Username already exists');
+    }
+    const hashedPassword = await bcrypt.hash(dto.password, 10);
+    const user = this.userRepo.create({username: dto.username, password: hashedPassword});
+    const savedUser = await this.userRepo.save(user);
+
+    const { password, ...result } = savedUser;
+    return result;
+
+  }
 
   async signIn(
     username: string,
