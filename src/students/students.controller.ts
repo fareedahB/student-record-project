@@ -5,6 +5,8 @@ import { UpdateStudentDto } from './dto/update-student.dto';
 import { QueryStudentsDto } from './dto/query-student.dto';
 import { ResponseInterceptor } from './response.interceptor';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { Roles } from 'src/roles.decorator';
+import { Role } from 'src/role.enum';
 
 
 @Controller('students')
@@ -14,6 +16,7 @@ export class StudentsController {
   constructor(private readonly studentsService: StudentsService) {}
 
   @Post()
+  @Roles(Role.admin)
   create(@Body() createStudentDto: CreateStudentDto) {
     return this.studentsService.create(createStudentDto);
   }
@@ -37,6 +40,7 @@ export class StudentsController {
   }
 
   @Delete(':id')
+  @Roles(Role.admin)
   remove(@Param('id') id: string) {
     return this.studentsService.remove(+id);
   }

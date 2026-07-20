@@ -10,6 +10,7 @@ import { User } from './users/user.entity';
 import { AuthGuard } from './auth/auth.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
+import { RolesGuard } from './roles.guard';
 
 @Module({
   imports: 
@@ -33,6 +34,10 @@ import { ConfigModule } from '@nestjs/config';
       provide: APP_GUARD,
       useClass: AuthGuard,
     },
+    {
+    provide: APP_GUARD,
+    useClass: RolesGuard,
+  },
   ],
 })
 

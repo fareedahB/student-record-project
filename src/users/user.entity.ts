@@ -1,8 +1,10 @@
-import {Entity, PrimaryGeneratedColumn, Column} from 'typeorm';
+import { Role } from 'src/role.enum';
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from 'typeorm';
 
 
 @Entity('users')
 export class User {
+
   @PrimaryGeneratedColumn()
   userId: number;
 
@@ -11,5 +13,10 @@ export class User {
 
   @Column()
   password: string;
+
+  @Column({
+    default: Role.user,
+  })
+  role: Role;
 
 }

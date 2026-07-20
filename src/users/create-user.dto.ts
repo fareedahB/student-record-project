@@ -1,4 +1,5 @@
-import { IsString, IsNotEmpty, MinLength, Matches} from "class-validator";
+import { IsString, IsNotEmpty, MinLength, Matches, IsEnum} from "class-validator";
+import { Role } from "src/role.enum";
 
 export class CreateUserDto {
     @IsString()
@@ -11,7 +12,8 @@ export class CreateUserDto {
     @Matches(/^(?=.*[!@#$%^&*(),.?":{}|<>]).+$/, { message: 'Password must contain at least one special character'})
     password: string;
 
-
+    @IsEnum(Role)
+    role: Role;
 
 
 

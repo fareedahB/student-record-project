@@ -6,6 +6,7 @@ import { User } from 'src/users/user.entity';
 import { CreateUserDto } from 'src/users/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Role } from 'src/role.enum';
 
 @Injectable()
 export class AuthService {
@@ -23,7 +24,7 @@ export class AuthService {
       throw new BadRequestException('Username already exists');
     }
     const hashedPassword = await bcrypt.hash(dto.password, 10);
-    const user = this.userRepo.create({username: dto.username, password: hashedPassword});
+    const user = this.userRepo.create({username: dto.username, password: hashedPassword, role: dto.role});
     const savedUser = await this.userRepo.save(user);
 
     const { password, ...result } = savedUser;
@@ -43,7 +44,7 @@ export class AuthService {
     if (!isMatch) {
       throw new UnauthorizedException("Invalid password");
     }
-    const payload = { sub: user?.userId, username: user?.username };
+    const payload = { sub: user.userId, username: user.username, roles: [user.role] };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
