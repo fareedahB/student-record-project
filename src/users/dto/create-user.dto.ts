@@ -12,9 +12,4 @@ export class CreateUserDto {
     @Matches(/^(?=.*[!@#$%^&*(),.?":{}|<>]).+$/, { message: 'Password must contain at least one special character'})
     password: string;
 
-    @IsEnum(Role)
-    role: Role;
-
-
-
 }

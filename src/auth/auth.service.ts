@@ -3,7 +3,7 @@ import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { User } from 'src/users/user.entity';
-import { CreateUserDto } from 'src/users/create-user.dto';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Role } from 'src/role.enum';
@@ -24,7 +24,7 @@ export class AuthService {
       throw new BadRequestException('Username already exists');
     }
     const hashedPassword = await bcrypt.hash(dto.password, 10);
-    const user = this.userRepo.create({username: dto.username, password: hashedPassword, role: dto.role});
+    const user = this.userRepo.create({username: dto.username, password: hashedPassword, role: Role.user});
     const savedUser = await this.userRepo.save(user);
 
     const { password, ...result } = savedUser;
