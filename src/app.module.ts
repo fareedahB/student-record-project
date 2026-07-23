@@ -13,6 +13,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RolesGuard } from './roles.guard';
 import { ResponseInterceptor } from './response.interceptor';
 import { HttpExceptionFilter } from './http-exception.filter';
+import { CoursesModule } from './courses/courses.module';
+import { Course } from './courses/entities/course.entity';
+import { GradesModule } from './grades/grades.module';
+import { Grade } from './grades/entities/grade.entity';
 
 @Module({
   imports:
@@ -30,11 +34,11 @@ import { HttpExceptionFilter } from './http-exception.filter';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_DATABASE'),
-        entities: [Student, User],
+        entities: [Student, User, Course, Grade],
         synchronize: false,
       }),
     }),
-    AuthModule, UsersModule,
+    AuthModule, UsersModule, CoursesModule, GradesModule,
   ],
   controllers: [AppController],
   providers: [
