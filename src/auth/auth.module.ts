@@ -6,7 +6,7 @@ import { AuthController } from './auth.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/users/user.entity';
 import { StringValue } from 'ms';
-import { ConfigService } from '@nestjs/config';
+import { ConfigService , ConfigModule} from '@nestjs/config';
 
 @Module({
   imports: [
