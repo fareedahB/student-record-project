@@ -6,7 +6,7 @@ import { Repository, ILike} from 'typeorm';
 import { Student } from './entities/student.entity';
 import { QueryStudentsDto } from './dto/query-student.dto';
 import { NotFoundException } from '@nestjs/common';
-import { User } from 'src/users/user.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class StudentsService {
