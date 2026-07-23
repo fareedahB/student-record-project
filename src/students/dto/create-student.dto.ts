@@ -20,5 +20,5 @@ export class CreateStudentDto {
 
   @IsString()
   @IsNotEmpty()
-  course: string;
+  department: string;
 }
