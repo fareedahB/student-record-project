@@ -2,10 +2,11 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Like , FindOptionsOrder, ILike} from 'typeorm';
+import { Repository, ILike} from 'typeorm';
 import { Student } from './entities/student.entity';
 import { QueryStudentsDto } from './dto/query-student.dto';
 import { NotFoundException } from '@nestjs/common';
+import { User } from 'src/users/user.entity';
 
 @Injectable()
 export class StudentsService {
@@ -14,9 +15,12 @@ export class StudentsService {
     private studentRepository: Repository<Student>,
   ) {}
 
-  async create(dto: CreateStudentDto): Promise<Student> {
+  async create(dto: CreateStudentDto, user: { sub: number }): Promise<Student> {
     await this.ensureEmailIsUnique(dto.email);
-    const student = this.studentRepository.create(dto);
+    const student = this.studentRepository.create({
+      ...dto,
+      createdBy: { userId: user.sub } as User,
+    });
     return this.studentRepository.save(student);
   }
   
