@@ -1,6 +1,6 @@
 import { Role } from 'src/role.enum';
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from 'typeorm';
-
+import {Entity, PrimaryGeneratedColumn, Column, OneToMany} from 'typeorm';
+import { Student } from 'src/students/entities/student.entity';
 
 @Entity('users')
 export class User {
@@ -19,4 +19,6 @@ export class User {
   })
   role: Role;
 
+  @OneToMany(() => Student, (student) => student.createdBy)
+  students: Student[];
 }
